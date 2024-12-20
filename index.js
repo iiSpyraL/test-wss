@@ -12,6 +12,7 @@ const wsServer = new webSocketServer({
 });
 
 const clients = {};
+let users = [];
 
 // This code generates unique userid for everyuser.
 const getUniqueID = () => {
@@ -44,6 +45,19 @@ wsServer.on("request", function (request) {
 
       // broadcasting message to all connected clients
       for (key in clients) {
+        clients[key].sendUTF(message.utf8Data);
+        console.log("sent Message to: ", clients[key]);
+      }
+    }
+  });
+
+  connection.on("users", function (message) {
+    if (message.type === "utf8") {
+      console.log("Received Message: ", message.utf8Data);
+
+      // broadcasting message to all connected clients
+      for (key in clients) {
+        console.log(message.utf8Data);
         clients[key].sendUTF(message.utf8Data);
         console.log("sent Message to: ", clients[key]);
       }
