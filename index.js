@@ -69,7 +69,7 @@ wsServer.on("request", function (request) {
           console.log("sent updated users to: ", clients[key]);
         }
       } else if (obj.type === "removeUser") {
-        users.filter((user) => user !== obj.user);
+        users = users.filter((user) => user !== obj.user);
         for (key in clients) {
           // clients[key].sendUTF(message.utf8Data);
           clients[key].sendUTF(JSON.stringify({ type: "users", users: users }));
